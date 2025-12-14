@@ -8,12 +8,6 @@
     let canvas;
     let container;
 
-    onMount(async () => {
-        if (browser) {
-            drawPoints();
-        }
-    });
-
     function handleMouseMove(event) {
         const rect = container.getBoundingClientRect();
         const x = event.clientX - rect.left - rect.width / 2;
@@ -30,7 +24,7 @@
 
 </script>
 
-<a bind:this={container} onmousemove={handleMouseMove} onmouseleave={resetTilt} class="w-[115px] sm:w-[115px] tilt-effect rounded-md overflow-hidden bg-base-200 border border-neutral/70 aspect-[3/2]" href={`/view-image?src=${encodeURIComponent(img)}`} target="_blank">
+<a bind:this={container} onmousemove={handleMouseMove} onmouseleave={resetTilt} class="w-[115px] sm:w-[150px] tilt-effect rounded-md overflow-hidden bg-base-200 border border-neutral/70 aspect-[3/2]" href={`/view-image?src=${encodeURIComponent(img)}`} target="_blank">
     <img src="{img}" alt="Artwork" class="tilt-effect w-full h-full object-cover"/>
 </a>
 

@@ -1,7 +1,7 @@
 <script>
     import GalleryCard from '$lib/components/GalleryCard.svelte';
     import PlateImage from '$lib/components/PlateImage.svelte';
-    import OminTrayImage from '$lib/components/OminTrayImage.svelte';
+    import OmniTrayImage from '$lib/components/OmniTrayImage.svelte';
     import { onMount } from 'svelte';
     import { browser } from '$app/environment';
     import { well_colors, old_well_colors } from '$lib/proteins.js';

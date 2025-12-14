@@ -10,8 +10,12 @@ export function shiftPoints(direction, new_spacing, old_spacing, radius_mm, poin
     const maxY384 = (rows384 - 1) * echoYSpacing;
 
     // Echo 1536
+    const rows1536 = 32;
+    const cols1536 = 48;
     const Echo1536XSpacing = 2.5;
     const Echo1536YSpacing = 2.5;
+    const maxX1536 = (cols1536 - 1) * Echo1536XSpacing;
+    const maxY1536 = (rows1536 - 1) * Echo1536YSpacing;
 
     // -------------------------
     // Direction → shift amount
@@ -51,21 +55,21 @@ export function shiftPoints(direction, new_spacing, old_spacing, radius_mm, poin
             if (grid_style.startsWith("Echo384")) {
                 const i = Math.round(x / echoXSpacing);
                 const j = Math.round(y / echoYSpacing);
-
                 newX = Math.max(0, Math.min(i * echoXSpacing, maxX384));
                 newY = Math.max(0, Math.min(j * echoYSpacing, maxY384));
             }
             else if (grid_style.startsWith("Echo1536")) {
                 const i = Math.round(x / Echo1536XSpacing);
                 const j = Math.round(y / Echo1536YSpacing);
-
                 newX = i * Echo1536XSpacing;
                 newY = j * Echo1536YSpacing;
+
+                if (newX < 0 || newX > maxX1536 || newY < 0 || newY > maxY1536)
+                    continue; // skip points outside 1536 grid
             }
             else {
                 const i = Math.round(x / old_spacing);
                 const j = Math.round(y / old_spacing);
-
                 newX = i * new_spacing;
                 newY = j * new_spacing;
             }
@@ -87,12 +91,13 @@ export function shiftPoints(direction, new_spacing, old_spacing, radius_mm, poin
         let newX = x + dx;
         let newY = y + dy;
 
-        if (grid_style.startsWith("Echo384") || grid_style.startsWith("Echo1536")) {
-            const maxX1536 = (48 - 1) * Echo1536XSpacing;
-            const maxY1536 = (32 - 1) * Echo1536YSpacing;
-
-            newX = Math.max(0, Math.min(newX, maxX1536));
-            newY = Math.max(0, Math.min(newY, maxY1536));
+        if (grid_style.startsWith("Echo384")) {
+            newX = Math.max(0, Math.min(newX, maxX384));
+            newY = Math.max(0, Math.min(newY, maxY384));
+        }
+        else if (grid_style.startsWith("Echo1536")) {
+            if (newX < 0 || newX > maxX1536 || newY < 0 || newY > maxY1536)
+                continue; // remove points outside 1536
         }
         else {
             // radial limit

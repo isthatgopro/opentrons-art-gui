@@ -289,16 +289,36 @@ for (let row = 0; row < ROWS; row++) {
     }
 }
 
-export function Echo1536Image(imageColors) {
-    if (!imageColors || !imageColors.length || !imageColors[0].length) return [];
+function Echo1536Image(imageColors) {
+    const points = [];
+    const rows = 32;
+    const cols = 48;
+    if (!imageColors || !imageColors.length || !imageColors[0].length) return points;
+
+    const x_spacing = 2.5;  // mm between columns for 1536
+    const y_spacing = 2.5;  // mm between rows for 1536
 
     const imgH = imageColors.length;
     const imgW = imageColors[0].length;
 
-    return E1536_GRID.map(({ x, y, row, col }) => {
-        const imgY = Math.round((row / (ROWS - 1)) * (imgH - 1));
-        const imgX = Math.round((col / (COLS - 1)) * (imgW - 1));
-        const color = imageColors[imgY]?.[imgX] ?? '#FFFFFF';
-        return { x, y, color };
-    });
+    for (let row = 0; row < rows; row++) {
+        const imgY = Math.round((row / (rows - 1)) * (imgH - 1));
+        const colorRow = imageColors[imgY] || [];
+
+        for (let col = 0; col < cols; col++) {
+            const imgX = Math.round((col / (cols - 1)) * (imgW - 1));
+            const color = colorRow[imgX] ?? '#FFFFFF';
+
+            const xPos = col * x_spacing;
+            const yPos = row * y_spacing;
+
+            points.push({
+                x: xPos.toFixed(3),
+                y: yPos.toFixed(3),
+                color
+            });
+        }
+    }
+
+    return points;
 }
