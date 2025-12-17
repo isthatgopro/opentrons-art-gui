@@ -5,10 +5,12 @@
     import OmniTrayPicture from '$lib/components/OmniTrayPicture.svelte';
     import { onMount } from 'svelte';
     import { browser } from '$app/environment';
+    import { well_colors, old_well_colors } from '$lib/proteins.js';
+    import { page } from '$app/stores';
 
-    const filter_list = ['Approved', 'Media Lab', 'Off'];
-    const url_prefix = 'https://ginkgo-artworks.nyc3.cdn.digitaloceanspaces.com/';
-    let images_manifest = url_prefix + 'images.txt';
+    const filter_list = ['Approved', 'Media Lab', 'Off']
+    const url_prefix = 'https://ginkgo-artworks.nyc3.cdn.digitaloceanspaces.com/'
+    let images_manifest = url_prefix + 'images.txt'
     
     let filter = $state(3);
     let record_load_iteration = $state(0);
@@ -16,53 +18,49 @@
     let loadedRecords = $state([]);
     let images = [];
     let container;
-    let alive = false;
+    // -1 = Image/Video
+    // 0 = HTGAA
+    // 3 = SBS
 
-    onMount(() => {
-        alive = true;
-
-        if (!browser) return;
-
-        // Use window.location to avoid reactive $page issues
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('htgaa')) filter = 0;
-
-        fetchGallery().catch(() => {});
-        fetchImages().catch(() => {});
-
-        return () => {
-            alive = false; // prevent updates after unmount
-        };
+    onMount(async () => {
+        if (browser) {
+            if ($page.url.searchParams.get('htgaa')){
+                filter = 0;
+            }
+            loadGallery();
+            const res = await fetch(images_manifest, { cache: 'no-store' });
+            const text = await res.text();
+            images = text.split('\n').map(line => line.trim()).filter(Boolean).map(filename => url_prefix + 'agar-art/' + filename);
+        }
     });
 
-    async function fetchGallery() {
-        if (filter === -1) return;
-
-        loadingRecords = true;
-        const response = await fetch('../loadGallery', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ record_load_iteration, filter })
-        });
-        if (!alive) return;
-
-        const r = await response.json();
-        loadedRecords = [...loadedRecords, ...r.records];
-        record_load_iteration += 1;
-        loadingRecords = false;
+    async function loadGallery() {
+        if (filter !== -1) {
+            loadingRecords = true;
+            const response = await fetch('../loadGallery', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ record_load_iteration, filter })
+            });
+            const r = await response.json();
+            loadedRecords = [...loadedRecords, ...r.records];
+            record_load_iteration += 1;
+            loadingRecords = false;
+        }
     }
 
-    async function fetchImages() {
-        const res = await fetch(images_manifest);
-        if (!alive) return;
-        const text = await res.text();
-        if (!alive) return;
+    function handleMouseMove(event) {
+        const rect = container.getBoundingClientRect();
+        const x = event.clientX - rect.left - rect.width / 2;
+        const y = event.clientY - rect.top - rect.height / 2;
+        const rotateX = (-y / rect.height) * 125;
+        const rotateY = (x / rect.width) * 125;
 
-        images = text
-            .split('\n')
-            .map(line => line.trim())
-            .filter(Boolean)
-            .map(filename => url_prefix + 'agar-art/' + filename);
+        container.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    }
+
+    function resetTilt() {
+        container.style.transform = 'rotateX(0deg) rotateY(0deg)';
     }
 </script>
 

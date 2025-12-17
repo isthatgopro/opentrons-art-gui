@@ -1,9 +1,26 @@
-# Automation Art GUI
-Graphical interface for drawing patterns with Opentrons OT-2 (Python API) or Echo 525 acoustic liquid handler (CSV).
+# Ginkgo Artworks
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) ![Svelte](https://img.shields.io/badge/Svelte-5.0.0-orange) ![SvelteKit](https://img.shields.io/badge/SvelteKit-2.16.0-red) ![DigitalOcean](https://img.shields.io/badge/DigitalOcean-Active-blue) ![PocketBase](https://img.shields.io/badge/PocketBase-v1.14.1-green)
 
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+A graphical interface for making fluorescent bacteria patterns with lab automation equipment. Optimized for the Echo 525 acoustic liquid handler on [Ginkgo Nebula](https://www.ginkgo.bio).
 
-### How to Host Locally
+Built for [How To Grow Almost Anything](https://howtogrowalmostanything.notion.site/htgaa25) (HTGAA) at the [MIT Media Lab](https://www.media.mit.edu). 
+
+## Features 
+- User interface for 100mm agar plate coordinates or 1536-well OmniTrays.
+- Share designs to a open-source gallery.
+- UV light photography image gallery.
+
+## Want to Make Fluorescent Artwork at Your Lab?
+CSV files are downloadable for all designs and support upload to:
+- Echo 525 
+- Opentrons OT-2
+
+## Automation Videos
+
+
+## Website Development
+
+Feature additions are welcome.
 
 Clone this repository, navigate to the opentrons-art-gui directory and install dependencies with `npm install`. 
 
@@ -12,3 +29,10 @@ Then start a development server:
 ```bash
 npm run dev
 ```
+
+### Tech Stack
+
+- **Frontend**: [SvelteKit](https://kit.svelte.dev/), [JavaScript](https://en.wikipedia.org/wiki/JavaScript)
+- **Backend**: [Node.js](https://nodejs.org/)
+- **Database**: [PocketBase (SQLite)](https://pocketbase.io)
+- **Hosting**: [DigitalOcean Droplet, Spaces](https://digitalocean.com)
