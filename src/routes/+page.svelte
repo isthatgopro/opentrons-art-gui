@@ -628,7 +628,7 @@ def run(protocol):
 
         // Track current well and remaining volume per color
         const wellTracker = {}; // { color: { currentIndex, remainingVolume } }
-
+        
         for (const [color, points] of Object.entries(points_by_color)) {
             const sourceWellPrefix = source_384_well_colors[stripAfterLastUnderscore(color)] || '';
             // Initialize tracker
@@ -942,17 +942,23 @@ def run(protocol):
 <dialog id="download_echo_csv" class="modal modal-middle">
     <div class="modal-box">
         <div class="mx-auto text-center font-bold pb-3">Edit Parameters</div>
-        <div class="flex w-full justify-center flex-row gap-4">
-            <div class="flex flex-col gap-2 text-xs flex-1 min-w-[90px]">
-                <fieldset class="fieldset">
-                    <legend class="fieldset-legend pb-1">Echo Source</legend>
-                    <input type="number" class="input input-sm outline outline-[1px] no-spinner max-w-[150px]" placeholder="ID #" bind:value={source_id}/>
-                </fieldset>
+        <div class="flex w-full gap-4 justify-center">
+            <div class="flex flex-col gap-2 text-xs w-[150px]">
+                <div>
+                    <div class="fieldset-legend pb-1">Echo Source</div>
+                    <input
+                        type="number"
+                        class="input input-sm outline outline-[1px] no-spinner w-full"
+                        placeholder="ID #"
+                        bind:value={source_id}
+                    />
+                </div>
+
                 <label class="flex flex-col gap-1">
                     Starting Column
                     <input
                         type="number"
-                        class="input input-sm outline outline-[1px] text-center max-w-[150px]"
+                        class="input input-sm outline outline-[1px] text-center w-full"
                         min="1"
                         max="24"
                         step="1"
@@ -960,16 +966,23 @@ def run(protocol):
                     />
                 </label>
             </div>
-            <div class="flex flex-col gap-2 text-xs flex-1 min-w-[90px]">
-                <fieldset class="fieldset">
-                    <legend class="fieldset-legend pb-1">Echo Destination</legend>
-                    <input type="number" class="input input-sm outline outline-[1px] no-spinner max-w-[150px]" placeholder="ID #" bind:value={destination_id}/>
-                </fieldset>
+
+            <div class="flex flex-col gap-2 text-xs w-[150px]">
+                <div>
+                    <div class="fieldset-legend pb-1">Echo Destination</div>
+                    <input
+                        type="number"
+                        class="input input-sm outline outline-[1px] no-spinner w-full"
+                        placeholder="ID #"
+                        bind:value={destination_id}
+                    />
+                </div>
+
                 <label class="flex flex-col gap-1">
                     Working Volume (μL)
                     <input
                         type="number"
-                        class="input input-sm outline outline-[1px] text-center max-w-[150px]"
+                        class="input input-sm outline outline-[1px] text-center w-full"
                         min="1"
                         max="60"
                         step="1"
@@ -1312,11 +1325,11 @@ def run(protocol):
                     <div class="w-full flex justify-between items-center">
                         <div class="join mx-auto">
                             <button class="btn btn-xs sm:btn-sm text-xs rounded-r-none hover:bg-neutral-700 {grid_style === 'Echo1536' ? 'bg-neutral-600' : 'bg-neutral-800'} {Object.keys(point_colors).length > 0 ? 'cursor-not-allowed' : ''}" type="button" onclick={() => {grid_style = "Echo1536"; point_size = 0.75;}} aria-label="Echo1536" disabled={Object.keys(point_colors).length > 0}>
-                                <svg class="w-4 h-4 opacity-75"  height="200px" width="200px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="currentColor"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:currentColor;} </style> <g> <path class="st0" d="M229.806,376.797l-58.165-40.976l-1.128-0.112c-26.889-2.741-53.247,9.248-68.79,31.31 c-14.743,20.928-20.101,43.743-25.282,65.812c-3.528,15.064-7.181,30.64-13.805,45.613c-5.483,12.382-9.156,16.802-9.169,16.822 l-3.784,4.283l5.148,2.479c23.958,11.542,56.31,13.143,88.766,4.394c34.09-9.182,62.639-28.109,80.372-53.28 c15.543-22.062,17.963-50.919,6.322-75.316L229.806,376.797z M208.721,442.4c-4.171,5.915-9.148,11.483-14.795,16.605 c-0.892,0.597-1.81,1.259-2.774,2.007c-10.657,8.382-24.548,4.775-16.101-12.224c8.447-17.012-6.44-22.456-18.534-11.286 c-15.175,14.022-22.298,2.826-19.491-4.913c2.8-7.738,12.881-18.291,4.446-25.111c-5.076-4.112-11.628,1.895-22.082,10.041 c-5.988,4.662-19.773,3.148-14.186-17.55c3.023-7.693,6.768-15.11,11.766-22.206c10.847-15.412,29.244-24.462,48.105-23.741 l49.81,35.087C221.923,406.631,219.575,426.988,208.721,442.4z"></path> <path class="st0" d="M191.519,277.032c-6.238,7.943-8.939,18.095-7.484,28.09c1.47,9.994,6.972,18.946,15.229,24.764l26.83,18.9 c8.257,5.817,18.547,7.988,28.45,6.007c9.903-1.993,18.554-7.962,23.938-16.5l24.357-38.734l-83.047-58.506L191.519,277.032z"></path> <path class="st0" d="M447.22,6.635l-0.204-0.138c-15.484-10.907-36.792-7.778-48.492,7.109L229.839,228.265l81.658,57.523 L456.847,54.687C466.934,38.658,462.697,17.541,447.22,6.635z"></path> </g> </g></svg>
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 opacity-75"  height="200px" width="200px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="currentColor"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:currentColor;} </style> <g> <path class="st0" d="M229.806,376.797l-58.165-40.976l-1.128-0.112c-26.889-2.741-53.247,9.248-68.79,31.31 c-14.743,20.928-20.101,43.743-25.282,65.812c-3.528,15.064-7.181,30.64-13.805,45.613c-5.483,12.382-9.156,16.802-9.169,16.822 l-3.784,4.283l5.148,2.479c23.958,11.542,56.31,13.143,88.766,4.394c34.09-9.182,62.639-28.109,80.372-53.28 c15.543-22.062,17.963-50.919,6.322-75.316L229.806,376.797z M208.721,442.4c-4.171,5.915-9.148,11.483-14.795,16.605 c-0.892,0.597-1.81,1.259-2.774,2.007c-10.657,8.382-24.548,4.775-16.101-12.224c8.447-17.012-6.44-22.456-18.534-11.286 c-15.175,14.022-22.298,2.826-19.491-4.913c2.8-7.738,12.881-18.291,4.446-25.111c-5.076-4.112-11.628,1.895-22.082,10.041 c-5.988,4.662-19.773,3.148-14.186-17.55c3.023-7.693,6.768-15.11,11.766-22.206c10.847-15.412,29.244-24.462,48.105-23.741 l49.81,35.087C221.923,406.631,219.575,426.988,208.721,442.4z"></path> <path class="st0" d="M191.519,277.032c-6.238,7.943-8.939,18.095-7.484,28.09c1.47,9.994,6.972,18.946,15.229,24.764l26.83,18.9 c8.257,5.817,18.547,7.988,28.45,6.007c9.903-1.993,18.554-7.962,23.938-16.5l24.357-38.734l-83.047-58.506L191.519,277.032z"></path> <path class="st0" d="M447.22,6.635l-0.204-0.138c-15.484-10.907-36.792-7.778-48.492,7.109L229.839,228.265l81.658,57.523 L456.847,54.687C466.934,38.658,462.697,17.541,447.22,6.635z"></path> </g> </g></svg>
                                 Draw
                             </button>
                             <button class="btn btn-xs sm:btn-sm text-xs rounded-l-none hover:bg-neutral-700 {grid_style === 'Echo1536Image' ? 'bg-neutral-600' : 'bg-neutral-800'} {Object.keys(point_colors).length > 0 ? 'cursor-not-allowed' : ''}" type="button" onclick={() => {grid_style = "Echo1536Image"; point_size = 0.75; canvasSize = 384; pixelation = 384;}} aria-label="Echo1536Image" disabled={Object.keys(point_colors).length > 0}>
-                                <svg class="w-4 h-4 opacity-75" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 10V6C4 4.89543 4.89543 4 6 4H12M4.02693 18.329C4.18385 19.277 5.0075 20 6 20H18C19.1046 20 20 19.1046 20 18V14.1901M4.02693 18.329C4.00922 18.222 4 18.1121 4 18V15M4.02693 18.329L7.84762 14.5083C8.52765 13.9133 9.52219 13.8481 10.274 14.3494L10.7832 14.6888C11.5078 15.1719 12.4619 15.1305 13.142 14.5864L15.7901 12.4679C16.4651 11.9279 17.4053 11.8855 18.1228 12.3484C18.2023 12.3997 18.2731 12.4632 18.34 12.5301L20 14.1901M20 14.1901V6C20 4.89543 19.1046 4 18 4H17M11 9C11 10.1046 10.1046 11 9 11C7.89543 11 7 10.1046 7 9C7 7.89543 7.89543 7 9 7C10.1046 7 11 7.89543 11 9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                <svg class="w-4 h-4 sm:w-6 sm:h-6 opacity-75" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 10V6C4 4.89543 4.89543 4 6 4H12M4.02693 18.329C4.18385 19.277 5.0075 20 6 20H18C19.1046 20 20 19.1046 20 18V14.1901M4.02693 18.329C4.00922 18.222 4 18.1121 4 18V15M4.02693 18.329L7.84762 14.5083C8.52765 13.9133 9.52219 13.8481 10.274 14.3494L10.7832 14.6888C11.5078 15.1719 12.4619 15.1305 13.142 14.5864L15.7901 12.4679C16.4651 11.9279 17.4053 11.8855 18.1228 12.3484C18.2023 12.3997 18.2731 12.4632 18.34 12.5301L20 14.1901M20 14.1901V6C20 4.89543 19.1046 4 18 4H17M11 9C11 10.1046 10.1046 11 9 11C7.89543 11 7 10.1046 7 9C7 7.89543 7.89543 7 9 7C10.1046 7 11 7.89543 11 9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
                                 Image
                             </button>
                         </div>
